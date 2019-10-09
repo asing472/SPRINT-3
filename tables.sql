@@ -64,27 +64,27 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT ID IS NULL OR INVALID
 		if @AccountID is null OR @AccountID = ' '
-			throw 5001,'Invalid Account ID',1
+			throw 50001,'Invalid Account ID',1
 
 		---THROWING EXCEPTION IF CUSTOMER ID IS NULL OR INVALID
 		if @CustomerID is null OR @CustomerID = ' '
-			throw 5001,'Invalid Customer ID',2
+			throw 50001,'Invalid Customer ID',2
 
 		---THROWING EXCEPTION IF ACCOUNT NO IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = '' OR @AccountNo NOT like '1________'
-			throw 5001,'Invalid Account No',4
+			throw 50001,'Invalid Account No',4
 
 		---THROWING EXCEPTION IF CURRENT BALANCE IS NULL OR LESS THAN 0
 		if @CurrentBalance < 0 OR @CurrentBalance = '' OR @CurrentBalance = null
-			throw 5001, 'Invalid Current Balance',5
+			throw 50001, 'Invalid Current Balance',5
 
 		---THROWING EXCEPTION IF ACCOUNT TYPE IS NOT SAVINGS OR CURRENT
 		if @AccountType = null OR @AccountType = ''OR @AccountType NOT IN('Fixed')
-			throw 5001,'Invalid Account Type',6
+			throw 50001,'Invalid Account Type',6
 
 		---THROWING EXCEPTION IF HOME BRANCH IS INVALID OR NULL
 		if @Branch = null OR @Branch = ''OR @Branch NOT IN('Mumbai','Delhi','Chennai','Bengaluru')
-			throw 5001,'Invalid Branch',7
+			throw 50001,'Invalid Branch',7
 
 			INSERT INTO CustomerService.RegularAccount(AccountID, CustomerID, AccountNo, CurrentBalance,
 	AccountType ,Branch,Status,MinimumBalance,InterestRate,CreationDateTime,LastModifiedTime)VALUES(@AccountID, @CustomerID, @AccountNo, @CurrentBalance,
@@ -106,35 +106,35 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT ID IS NULL OR INVALID
 		if @AccountID is null OR @AccountID = ' '
-			throw 5001,'Invalid Account ID',1
+			throw 50001,'Invalid Account ID',1
 
 		---THROWING EXCEPTION IF CUSTOMER ID IS NULL OR INVALID
 		if @CustomerID is null OR @CustomerID = ' '
-			throw 5001,'Invalid Customer ID',2
+			throw 50001,'Invalid Customer ID',2
 
 		---THROWING EXCEPTION IF ACCOUNT NO IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = '' OR @AccountNo NOT like '1________'
-			throw 5001,'Invalid Account No',4
+			throw 50001,'Invalid Account No',4
 
 		---THROWING EXCEPTION IF CURRENT BALANCE IS NULL OR LESS THAN 0
 		if @CurrentBalance < 0 OR @CurrentBalance = '' OR @CurrentBalance = null
-			throw 5001, 'Invalid Current Balance',5
+			throw 50001, 'Invalid Current Balance',5
 
 		---THROWING EXCEPTION IF ACCOUNT TYPE IS NOT SAVINGS OR CURRENT
 		if @AccountType = null OR @AccountType = ''OR @AccountType NOT IN('Savings','Current')
-			throw 5001,'Invalid Account Type',6
+			throw 50001,'Invalid Account Type',6
 
 		---THROWING EXCEPTION IF HOME BRANCH IS INVALID OR NULL
 		if @Branch = null OR @Branch = ''OR @Branch NOT IN('Mumbai','Delhi','Chennai','Bengaluru')
-			throw 5001,'Invalid Branch',7
+			throw 50001,'Invalid Branch',7
 
 		---THROWING EXCEPTION IF TENURE IS INVALID 
 		if @Tenure <= 0 OR @Tenure = '' OR @Tenure = null
-			throw 5001, 'Invalid Tenure',5
+			throw 50001, 'Invalid Tenure',5
 
 		---THROWING EXCEPTION IF FDDEPOSIT AMOUNT IS INVALID 
 		if @FDDeposit <= 0 OR @FDDeposit = '' OR @FDDeposit = null
-			throw 5001, 'Invalid FDDeposit Amount',5
+			throw 50001, 'Invalid FDDeposit Amount',5
 
 			INSERT INTO CustomerService.FixedAccount(AccountID, CustomerID, AccountNo, CurrentBalance,
 	AccountType ,Branch,Tenure,FDDeposit,Status,MinimumBalance,InterestRate,CreationDateTime,LastModifiedTime)VALUES(@AccountID, @CustomerID, @AccountNo, @CurrentBalance,
@@ -190,11 +190,11 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT No IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = ' '
-			throw 5001,'Invalid Account No',1
+			throw 50001,'Invalid Account No',1
 
 		---THROWING EXCEPTION IF THE ACCOUNT DOESN'T EXISTS
 		if NOT EXISTS(SELECT * from CustomerService.RegularAccount WHERE AccountNo = @AccountNo)
-			throw 5001,'Account does not exists',1
+			throw 50001,'Account does not exists',1
 
 		---SETTING THE VALUE OF STATUS FROM "ACTIVE" TO "CLOSED"
 		update CustomerService.RegularAccount
@@ -222,15 +222,15 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT No IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = ' '
-			throw 5001,'Invalid Account No',1
+			throw 50001,'Invalid Account No',1
 
 		---THROWING EXCEPTION IF THE ACCOUNT DOESN'T EXISTS
 		if NOT EXISTS(SELECT * from CustomerService.FixedAccount WHERE AccountNo = @AccountNo)
-			throw 5001,'Account does not exists',1
+			throw 50001,'Account does not exists',1
 
 		---SETTING THE VALUE OF STATUS FROM "ACTIVE" TO "CLOSED"
 		update CustomerService.FixedAccount
-		set Status = "Closed" where AccountNo = @AccountNo;
+		set Status = 'Closed' where AccountNo = @AccountNo;
 
 end
 
@@ -261,15 +261,15 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT No IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = ' '
-			throw 5001,'Invalid Account No',1
-
+			throw 50001,'Invalid Account No',1
+					
 		---THROWING EXCEPTION IF THE ACCOUNT DOESN'T EXISTS
 		if NOT EXISTS(SELECT * from CustomerService.RegularAccount WHERE AccountNo = @AccountNo)
-			throw 5001,'Account does not exists',1
+			throw 50001,'Account does not exists',1
 
 		---THROWING EXCEPTION IF THE HOME BRANCH ENTERED IS NOT VALID
 		if @Branch NOT IN ('Mumbai','Delhi','Chennai','Bengaluru')
-			throw 5001,'Home branch entered is invalid',1
+			throw 50001,'Home branch entered is invalid',1
 
 		---CHANGING THE HOME BRANCH IF ACCOUNT NO MATCHES
 		update CustomerService.RegularAccount
@@ -298,15 +298,15 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT No IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = ' '
-			throw 5001,'Invalid Account No',1
+			throw 50001,'Invalid Account No',1
 
 		---THROWING EXCEPTION IF THE ACCOUNT DOESN'T EXISTS
 		if NOT EXISTS(SELECT * from CustomerService.FixedAccount WHERE AccountNo = @AccountNo)
-			throw 5001,'Account does not exists',1
+			throw 50001,'Account does not exists',1
 
 		---THROWING EXCEPTION IF THE HOME BRANCH ENTERED IS NOT VALID
 		if @Branch NOT IN ('Mumbai','Delhi','Chennai','Bengaluru')
-			throw 5001,'Home branch entered is invalid',1
+			throw 50001,'Home branch entered is invalid',1
 
 		---CHANGING THE HOME BRANCH IF ACCOUNT NO MATCHES
 		update CustomerService.FixedAccount
@@ -335,19 +335,19 @@ begin
 
 		---THROWING EXCEPTION IF ACCOUNT No IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = ' '
-			throw 5001,'Invalid Account No',1
+			throw 50001,'Invalid Account No',1
 
 		---THROWING EXCEPTION IF THE ACCOUNT DOESN'T EXISTS
 		if NOT EXISTS(SELECT * from CustomerService.RegularAccount WHERE AccountNo = @AccountNo)
-			throw 5001,'Regular Account does not exists',1
+			throw 50001,'Regular Account does not exists',1
 		
 		---THROWING EXCEPTION IF THE ACCOUNT NO ENTERED BELONGS TO FIXED ACCOUNT TABLE
 		if EXISTS(SELECT * from CustomerService.FixedAccount WHERE AccountNo = @AccountNo) 
-			throw 5001,'Fixed accounts cannot be modified into other account types',1
+			throw 50001,'Fixed accounts cannot be modified into other account types',1
 
 		---THROWING EXCEPTION IF THE ACCOUNT TYPE ENTERED IS NOT VALID
 		if @AccountType NOT IN ('SAVINGS','CURRENT')
-			throw 5001,'Account Type entered is invalid',1
+			throw 50001,'Account Type entered is invalid',1
 
 		---CHANGING THE ACCOUNT TYPE IF ACCOUNT NO MATCHES
 		update CustomerService.RegularAccount
@@ -439,7 +439,7 @@ begin
 		
 		---THROWING EXCEPTION IF END DATE IS LATER THAN TODAY
 		if (@EndDate > = GETDATE())
-			throw 5001,'End date cannot be later than today',1
+			throw 50001,'End date cannot be later than today',1
 
 		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE ((CreationDateTime >= @StartDate) 
 		AND (CreationDateTime <= @EndDate))
@@ -457,7 +457,7 @@ begin
 		
 		---THROWING EXCEPTION IF END DATE IS LATER THAN TODAY
 		if (@EndDate > = GETDATE())
-			throw 5001,'End date cannot be later than today',1
+			throw 50001,'End date cannot be later than today',1
 
 		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE ((CreationDateTime >= @StartDate) 
 		AND (CreationDateTime <= @EndDate))
