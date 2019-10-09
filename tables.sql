@@ -23,7 +23,6 @@ CREATE TABLE CustomerService.Customer
 CREATE TABLE CustomerService.RegularAccount
 (AccountID uniqueidentifier constraint PK_RegularAccount_AccountID primary key,
 	CustomerID uniqueidentifier NOT NULL constraint FK_RegularAccount_CustomerID foreign key references CustomerService.Customer(CustomerID),
-	CustomerNo char(6) NOT NULL constraint FK_RegularAccount_CustomerNo foreign key references CustomerService.Customer(CustomerNumber),
 	AccountNo char(10) NOT NULL check(AccountNo like '_________'),
 	CurrentBalance money NOT NULL default 0 check(CurrentBalance >= 0),
 	AccountType varchar(10) NOT NULL check(AccountType = 'Savings' OR AccountType = 'Current'),
@@ -41,7 +40,6 @@ GO
 CREATE TABLE CustomerService.FixedAccount
 (AccountID uniqueidentifier constraint PK_FixedAccount_AccountID primary key,
 	CustomerID uniqueidentifier NOT NULL constraint FK_FixedAccount_CustomerID foreign key references CustomerService.Customer(CustomerID),
-	CustomerNo char(6) NOT NULL constraint FK_RegularAccount_CustomerNo foreign key references CustomerService.Customer(CustomerNumber),
 	AccountNo char(10) NOT NULL check(AccountNo like '_________'),
 	CurrentBalance money default 0 check(CurrentBalance >= 0) ,
 	AccountType varchar(10) NOT NULL check(AccountType = 'Fixed'),
@@ -59,7 +57,7 @@ GO
 ---CREATED PROCEDURE FOR ADDING ITEMS IN REGULAR ACCOUNT TABLE
 
 create procedure CreateRegularAccount
-(@AccountID uniqueIdentifier,@CustomerID uniqueIdentifier, @CustomerNo char(6), @AccountNo char(10), @CurrentBalance money,
+(@AccountID uniqueIdentifier,@CustomerID uniqueIdentifier, @AccountNo char(10), @CurrentBalance money,
 	@AccountType varchar(10),@Branch varchar(30),@Status char(10),@MinimumBalance money,@InterestRate decimal,@CreationDateTime datetime,@LastModifiedTime datetime)
 as
 begin
@@ -71,10 +69,6 @@ begin
 		---THROWING EXCEPTION IF CUSTOMER ID IS NULL OR INVALID
 		if @CustomerID is null OR @CustomerID = ' '
 			throw 5001,'Invalid Customer ID',2
-
-		---THROWING EXCEPTION IF ACCOUNT ID IS NULL OR INVALID
-		if @CustomerNo is null OR @CustomerNo = ' 'OR @CustomerNo NOT like '1_____'
-			throw 5001, 'Invalid Customer No',3
 
 		---THROWING EXCEPTION IF ACCOUNT NO IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = '' OR @AccountNo NOT like '1________'
@@ -92,8 +86,8 @@ begin
 		if @Branch = null OR @Branch = ''OR @Branch NOT IN('Mumbai','Delhi','Chennai','Bengaluru')
 			throw 5001,'Invalid Branch',7
 
-			INSERT INTO CustomerService.RegularAccount(AccountID, CustomerID, CustomerNo, AccountNo, CurrentBalance,
-	AccountType ,Branch,Status,MinimumBalance,InterestRate,CreationDateTime,LastModifiedTime)VALUES(@AccountID, @CustomerID, @CustomerNo, @AccountNo, @CurrentBalance,
+			INSERT INTO CustomerService.RegularAccount(AccountID, CustomerID, AccountNo, CurrentBalance,
+	AccountType ,Branch,Status,MinimumBalance,InterestRate,CreationDateTime,LastModifiedTime)VALUES(@AccountID, @CustomerID, @AccountNo, @CurrentBalance,
 	@AccountType ,@Branch,@Status,@MinimumBalance,@InterestRate,@CreationDateTime,@LastModifiedTime)
 
 end
@@ -105,7 +99,7 @@ GO
 ---CREATED PROCEDURE FOR ADDING ITEMS IN FIXED ACCOUNT TABLE
 
 create procedure CreateFixedAccount
-(@AccountID uniqueIdentifier,@CustomerID uniqueIdentifier, @CustomerNo char(6), @AccountNo char(10), @CurrentBalance money,
+(@AccountID uniqueIdentifier,@CustomerID uniqueIdentifier, @AccountNo char(10), @CurrentBalance money,
 	@AccountType varchar(10),@Branch varchar(30),@Tenure decimal,@FDDeposit money,@Status char(10),@MinimumBalance money,@InterestRate decimal,@CreationDateTime datetime,@LastModifiedTime datetime)
 as
 begin
@@ -117,10 +111,6 @@ begin
 		---THROWING EXCEPTION IF CUSTOMER ID IS NULL OR INVALID
 		if @CustomerID is null OR @CustomerID = ' '
 			throw 5001,'Invalid Customer ID',2
-
-		---THROWING EXCEPTION IF ACCOUNT ID IS NULL OR INVALID
-		if @CustomerNo is null OR @CustomerNo = ' 'OR @CustomerNo NOT like '1_____'
-			throw 5001, 'Invalid Customer No',3
 
 		---THROWING EXCEPTION IF ACCOUNT NO IS NULL OR INVALID
 		if @AccountNo is null OR @AccountNo = '' OR @AccountNo NOT like '1________'
@@ -146,8 +136,8 @@ begin
 		if @FDDeposit <= 0 OR @FDDeposit = '' OR @FDDeposit = null
 			throw 5001, 'Invalid FDDeposit Amount',5
 
-			INSERT INTO CustomerService.FixedAccount(AccountID, CustomerID, CustomerNo, AccountNo, CurrentBalance,
-	AccountType ,Branch,Tenure,FDDeposit,Status,MinimumBalance,InterestRate,CreationDateTime,LastModifiedTime)VALUES(@AccountID, @CustomerID, @CustomerNo, @AccountNo, @CurrentBalance,
+			INSERT INTO CustomerService.FixedAccount(AccountID, CustomerID, AccountNo, CurrentBalance,
+	AccountType ,Branch,Tenure,FDDeposit,Status,MinimumBalance,InterestRate,CreationDateTime,LastModifiedTime)VALUES(@AccountID, @CustomerID, @AccountNo, @CurrentBalance,
 	@AccountType ,@Branch,@Tenure,@FDDeposit,@Status,@MinimumBalance,@InterestRate,@CreationDateTime,@LastModifiedTime)
 
 
@@ -170,7 +160,7 @@ set @cid = NEWID()
 set @aid = NEWID()
 set @crdate = SysDateTime()
 set @modate = SysDateTime() 
-exec createRegularAccount @aid,@cid,'100001','1000000001',0,'Savings','Mumbai','Active',500,3.5,@crdate,@modate
+exec createRegularAccount @aid,@cid,'1000000001',0,'Savings','Mumbai','Active',500,3.5,@crdate,@modate
 
 GO
 
@@ -184,7 +174,7 @@ set @cid = NEWID()
 set @aid = NEWID()
 set @crdate = SysDateTime()
 set @modate = SysDateTime() 
-exec CreateFixedAccount @aid,@cid,'100001','2000000001',0,'Fixed','Bengaluru',10,100000,'Active',500,3.5,@crdate,@modate
+exec CreateFixedAccount @aid,@cid,'2000000001',0,'Fixed','Bengaluru',10,100000,'Active',500,3.5,@crdate,@modate
 
 select * from CustomerService.RegularAccount
 
@@ -214,8 +204,8 @@ end
 
 GO
 
-declare @accountno char(10), @cid uniqueIdentifier
-set @cid = '1000000000'
+declare @accountno char(10)
+set @accountno = '1000000000'
 
 EXEC DeleteRegularAccount @accountno
 
@@ -379,7 +369,7 @@ as
 begin
 
 		
-		SELECT c.CustomerName,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE (AccountNo = @AccountNo) 
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE (AccountNo = @AccountNo) 
 		AND (c.CustomerID = a.CustomerID )
 
 end
@@ -393,7 +383,7 @@ Create procedure GetFixedAccountByAccountNo(@AccountNo char(10))
 as
 begin
 
-		SELECT c.CustomerName,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE (AccountNo = @AccountNo) 
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE (AccountNo = @AccountNo) 
 		AND (c.CustomerID = a.CustomerID )
 
 end
@@ -403,12 +393,11 @@ GO
 
 ---CREATED PROCEDURE FOR LISTING REGULAR ACCOUNTS BY CUSTOMER NO
 
-Create procedure GetRegularAccountByCustomerNo(@CustomerNo char(6))
+Create procedure GetRegularAccountByCustomerNo(@CustomerID uniqueIdentifier)
 as
 begin
 
-		SELECT c.CustomerName,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE (CustomerNo = @CustomerNo) 
-		AND (c.CustomerID = a.CustomerID )
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE (@CustomerID IN(SELECT CustomerID from CustomerService.RegularAccount))AND(c.CustomerID = a.CustomerID )
 
 end
 
@@ -418,12 +407,11 @@ GO
 
 ---CREATED PROCEDURE FOR LISTING FIXED ACCOUNTS BY CUSTOMER NO
 
-Create procedure GetFixedAccountByCustomerNo(@CustomerNo char(6))
+Create procedure GetFixedAccountByCustomerNo(@CustomerID uniqueIdentifier)
 as
 begin
 
-		SELECT c.CustomerName,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE (CustomerNo = @CustomerNo) 
-		AND (c.CustomerID = a.CustomerID )
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE (@CustomerID IN(SELECT CustomerID from CustomerService.FixedAccount))AND(c.CustomerID = a.CustomerID )
 
 end
 
@@ -435,7 +423,7 @@ Create procedure GetRegularAccountsByAccountType(@AccountType varchar(10))
 as
 begin
 
-		SELECT c.CustomerName,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE (AccountType = @AccountType) 
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE (AccountType = @AccountType) 
 		AND (c.CustomerID = a.CustomerID )
 
 end
@@ -450,10 +438,10 @@ as
 begin
 		
 		---THROWING EXCEPTION IF END DATE IS LATER THAN TODAY
-		if (@EndDate > = CreationDateTime)
+		if (@EndDate > = GETDATE())
 			throw 5001,'End date cannot be later than today',1
 
-		SELECT c.CustomerName,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE ((CreationDateTime >= @StartDate) 
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.RegularAccount a, CustomerService.Customer c WHERE ((CreationDateTime >= @StartDate) 
 		AND (CreationDateTime <= @EndDate))
 
 end
@@ -468,10 +456,10 @@ as
 begin
 		
 		---THROWING EXCEPTION IF END DATE IS LATER THAN TODAY
-		if (@EndDate > = CreationDateTime)
+		if (@EndDate > = GETDATE())
 			throw 5001,'End date cannot be later than today',1
 
-		SELECT c.CustomerName,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE ((CreationDateTime >= @StartDate) 
+		SELECT c.CustomerName,c.CustomerNumber,a.* from CustomerService.FixedAccount a, CustomerService.Customer c WHERE ((CreationDateTime >= @StartDate) 
 		AND (CreationDateTime <= @EndDate))
 
 end
