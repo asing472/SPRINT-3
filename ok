@@ -1,0 +1,1037 @@
+import { Injectable } from '@angular/core';
+import { InMemoryDbService } from 'angular-in-memory-web-api';
+
+import { Admin } from '../Models/Admin';
+import { Employee } from '../Models/Employee';
+import { Customer } from '../Models/customer';
+import { RegularAccount } from '../Models/regularaccount';
+import { FixedAccount } from '../Models/fixedaccount';
+import { ChequeBook } from '../Models/chequebook';
+import { DebitCard } from '../Models/debitcard';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PecuniaDataService implements InMemoryDbService {
+  constructor() { }
+
+  createDb() {
+    let admins = [
+      new Admin(1, '101', 'Admin', 'admin@capgemini.com', 'manager')
+    ];
+    let employees = [
+      new Employee(1, "401476EE-0A3B-482E-BD5B-B94A32355959", "Scott", "scott@capgemini.com", "Scott123#", "10/3/2019", "10/4/2019"),
+      new Employee(2, "C628855C-FE7A-4D94-A1BB-167157D3F4EA", "Smith", "smith@capgemini.com", "Smith123#", "9/6/2019", "5/7/2019"),
+      new Employee(3, "6D68849C-8FA8-4049-A111-B431C76C6548", "Arun", "arun@capgemini.com", "Arun123#", "1/5/2017", "15/11/2018"),
+      new Employee(4, "53E8748F-61D6-494B-BF72-E18B27511EFA", "Jones",  "jones@capgemini.com", "Jones123#", "2/7/2019", "12/1/2019")
+    ];
+    let customers = [
+      new Customer(1, "401476EE-0A3B-482E-BD5B-B94A32355959", 100001, "Scott", "9876543210", "scott@capgemini.com", "SADHGHGHJKSHD", "825736095581", "10/2/1992", "Male", "ADKPC1022R", "10/3/2019", "10/4/2019"),
+      new Customer(2, "C628855C-FE7A-4D94-A1BB-167157D3F4EA", 100002, "Smith", "9988776655", "smith@capgemini.com", "RDSYRWYUEETRU", "823536098851", "23/6/1993", "Male", "RDHKO1099T", "9/6/2019", "5/7/2019"),
+      new Customer(3, "6D68849C-8FA8-4049-A111-B431C76C6548", 100003, "Aruni", "7781994834", "aruni@capgemini.com", "SFDYWATEDWDSDJK", "345678904321", "12/7/1997", "Female", "RFTCY4545R", "1/5/2017", "15/11/2018"),
+      new Customer(4, "53E8748F-61D6-494B-BF72-E18B27511EFA", 100004, "Jones", "6989493491", "jones@capgemini.com", "FDSGHFGEUFKU", "123456789045", "6/9/1995", "Male", "DRTYU7777N", "2/1/2019", "12/1/2019")
+    ];
+    let regularaccounts = [
+      new RegularAccount(1, "10c8cc37-5717-4333-8d02-ddeb47dc34e3", "ceb68714-3b7e-4a3e-8358-5609f5198b52", 1000000001, 0.0, "Current", "Bengaluru", "Active", 500.0, 3.5, "07/09/2019", "28/09/2019"),
+
+      new RegularAccount(2, "efa59230-c787-4ab3-81ba-eb27d6ca31f7", "ceb68714-3b7e-4a3e-8358-5509f5198b52", 1000000002, 0.0, "current", "Chennai", "Active", 500.0, 3.5, "12/09/2019", "27/09/2019"),
+
+      new RegularAccount(3, "9b989ff9-9be5-41d2-a074-13d6ade7935d", "7313928b-dce3-42f7-b299-0ec153306205", 1000000003, 0.0, "Savings", "Delhi", "Active", 0.0, 3.5, "02/10/2019", "08/10/2019"),
+
+      new RegularAccount(4, "586972bb-5635-491d-9e47-a744519a5d10", "a17e947a-d41e-4148-9397-6498cf1d20e4", 1000000004, 0.0, "Savings", "Chennai", "Active", 0.0, 3.5, "06/10/2019", "07/10/2019"),
+
+      new RegularAccount(5, "186b0df7-4a58-4e45-80c7-ac9ccd3fc08c", "1c65918e-ea22-4710-a7a6-8db97bd87610", 1000000005, 0.0, "savings", "Mumbai", "Active", 0.0, 3.5, "08/10/2019", "09/10/2019")
+    ];
+
+    let fixedaccounts = [
+      new FixedAccount(1, "1a9f8831-2fcc-43ff-a489-ff6b9e56a923", "ceb68714-3b7e-4a3e-8358-5609f5198b52", 2000000001, 0.0, "Fixed", "Bengaluru", "Active", 500.0, 3.5,5,1000000, "07/09/2019", "28/09/2019"),
+
+      new FixedAccount(2, "95dce58d-fc2f-48d3-a0f7-5d4e8767dfd0", "ceb68714-3b7e-4a3e-8358-5509f5198b52", 2000000002, 0.0, "Fixed", "Chennai", "Active", 500.0, 3.5,2,500000, "12/09/2019", "27/09/2019"),
+
+      new FixedAccount(3, "c51e3cc2-506d-4f1a-836f-472590d03125", "7313928b-dce3-42f7-b299-0ec153306205", 2000000003, 0.0, "Fixed", "Delhi", "Active", 0.0, 3.5,7,2000000, "02/10/2019", "08/10/2019"),
+
+      new FixedAccount(4, "c78bfa8d-517b-414a-8864-518108f7c550", "a17e947a-d41e-4148-9397-6498cf1d20e4", 2000000004, 0.0, "Fixed", "Chennai", "Active", 0.0, 3.5,1,250000, "06/10/2019", "07/10/2019")
+      
+    ];
+
+    let chequebooks = [
+
+      new ChequeBook(1, "f9698031-93ef-41f7-9493-aa4c3e55fded", "10c8cc37-5717-4333-8d02-ddeb47dc34e3", 1000000001, 200000.0, 20, "Approved", "05/10/2019", "09/10/2019"),
+      new ChequeBook(2, "f9678031-93ef-41f7-9493-aa4c3e55fded", "10c8cc37-5717-4333-8d02-ddeb47dc34e3", 1000000001, 300000.0, 30, "Approved", "05/10/2019", "09/10/2019"),
+      new ChequeBook(3, "f9608031-93ef-41f7-9493-aa4c3e55fded", "10c8cc37-5717-4333-8d02-ddeb47dc34e3", 1000000001, 400000.0, 40, "Approved", "05/10/2019", "09/10/2019")
+    ];
+    let debitcards = [
+
+      new DebitCard(1, "f0698031-93ef-41f7-9493-aa4c3e55fded", "10c8cc37-5717-4333-8d02-ddeb47dc34e3", "tarunsree", 100010001000, "09/2019", "Rupay", "Blocked", "05/10/2019", "09/10/2019"),
+      new DebitCard(2, "f9678037-93ef-41f7-9493-aa4c3e55fded", "10c8cc37-5717-4333-8d02-ddeb47dc34e3", "akhil", 100010001001, "10/2019", "Visa", "Blocked", "05/10/2019", "09/10/2019")
+
+    ];
+    
+    return { admins, employees, customers, regularaccounts,fixedaccounts, chequebooks, debitcards };
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+  <div class="col-md-3 col-lg-2 ml-0 pl-0 pt-0 pr-0 border-right left-menu">
+    <div class="p-2">
+      <h5>
+        Regular Accounts <span class="badge badge-secondary float-right" *ngIf="regularaccounts.length > 0">{{regularaccounts.length}}</span>
+      </h5>
+
+  
+    </div>
+    <div class="list-group mb-2">
+      <a class="list-group-item list-group-item-action list-group-item-primary" data-toggle="modal" href="#newRegularAccountModal" (click)="onCreateRegularAccountClick()">Create Account</a>
+    </div>
+    <div class="list-group mb-5">
+      <button type="submit" class="list-group-item list-group-item-action list-group-item-primary" c [routerLink]=" [ '/employee', 'customer' ] " [routerLinkActive]="['active']" >
+        Add Customer
+      </button>
+    </div>
+      <div class="p-2 border-top"><h5>View</h5></div>
+      <div class="px-2">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewAccountID" [(ngModel)]="viewRegularAccountCheckBoxes.accountID">
+          <label class="form-check-label" for="viewAccountID">
+            Account ID
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewCustomerID" [(ngModel)]="viewRegularAccountCheckBoxes.customerID">
+          <label class="form-check-label" for="viewCustomerID">
+            Customer ID
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewAccountNo" [(ngModel)]="viewRegularAccountCheckBoxes.accountNo">
+          <label class="form-check-label" for="viewAccountNo">
+            Account No
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewAccountType" [(ngModel)]="viewRegularAccountCheckBoxes.accountType">
+          <label class="form-check-label" for="viewAccountType">
+            Account Type
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewBranch" [(ngModel)]="viewRegularAccountCheckBoxes.branch">
+          <label class="form-check-label" for="viewBranch">
+            Branch
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewStatus" [(ngModel)]="viewRegularAccountCheckBoxes.status">
+          <label class="form-check-label" for="viewStatus">
+            Status
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewCurrentBalance" [(ngModel)]="viewRegularAccountCheckBoxes.currentBalance">
+          <label class="form-check-label" for="viewStatus">
+            Current Balance
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewMinimumBalance" [(ngModel)]="viewRegularAccountCheckBoxes.minimumBalance">
+          <label class="form-check-label" for="viewStatus">
+            Minimum Balance
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewInterestRate" [(ngModel)]="viewRegularAccountCheckBoxes.interestRate">
+          <label class="form-check-label" for="viewInterestRate">
+            Interest Rate
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewCreatedOn" [(ngModel)]="viewRegularAccountCheckBoxes.creationDateTime">
+          <label class="form-check-label" for="viewCreatedOn">
+            Created On
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="viewLastModifiedOn" [(ngModel)]="viewRegularAccountCheckBoxes.lastModifiedDateTime">
+          <label class="form-check-label" for="viewLastModifiedOn">
+            Last Modified On
+          </label>
+        </div>
+        <div class="form-group my-2">
+          <button class="btn btn-secondary btn-sm mr-1" (click)="onViewSelectAllClick()">Select All</button>
+          <button class="btn btn-secondary btn-sm" (click)="onViewDeselectAllClick()">Deselect All</button>
+        </div>
+      </div>
+
+      <div class="p-2 border-top mt-4"><h5>Sort by</h5></div>
+      <div class="px-2">
+        <div class="form-group">
+          <select class="form-control" [(ngModel)]="sortBy">
+            <option value="accountNo">Account No</option>
+            <option value="accountType">Account Type</option>
+            <option value="branch">Branch</option>
+            <option value="status">Status</option>
+            <option value="currentBalance">Current Balance</option>
+            <option value="interestRate">Interest Rate</option>
+            <option value="creationDateTime">Created On</option>
+            <option value="lastModifiedDateTime">Last Modified On</option>
+          </select>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="sortAscending" value="ASC" [(ngModel)]="sortDirection">
+          <label class="form-check-label" for="sortAscending">
+            Ascending
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="sortDescending" value="DESC" [(ngModel)]="sortDirection">
+          <label class="form-check-label" for="sortDescending">
+            Descending
+          </label>
+        </div>
+        <div class="form-group my-2">
+          <button class="btn btn-secondary btn-sm mr-1 px-3" (click)="onBtnSortClick()">Sort</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9 col-lg-10">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            RegularAccounts
+            <i class="fa fa-circle-o-notch  fa-spin" *ngIf="showRegularAccountsSpinner"></i>
+          </li>
+        </ol>
+      </nav>
+      <!--<h4>RegularAccounts </h4>-->
+      <!--<button class="btn btn-primary" data-toggle="modal" data-target="#newRegularAccountModal" (click)="onCreateRegularAccountClick()">Create RegularAccount</button>-->
+      <table class="table mt-2">
+        <thead>
+          <tr class="table-secondary">
+            <th *ngIf="viewRegularAccountCheckBoxes.id">ID</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.accountID">Account ID</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.customerID">Customer ID</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.accountNo">Account Number</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.accountType">Account Type</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.branch">Home Branch</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.status">Account Status</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.currentBalance">Current Balance</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.minimumBalance">Minimum Balance</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.interestRate">Interest Rate</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.creationDateTime">Created on</th>
+            <th *ngIf="viewRegularAccountCheckBoxes.lastModifiedDateTime">Last Modified on</th>
+            <th class="text-secondary">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let regularaccount of regularaccounts; let index = index">
+            <td *ngIf="viewRegularAccountCheckBoxes.id">{{regularaccount.id}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.accountID">{{regularaccount.accountID}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.customerID">{{regularaccount.customerID}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.accountNo">{{regularaccount.accountNo}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.accountType">{{regularaccount.accountType}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.branch">{{regularaccount.branch}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.status">{{regularaccount.status}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.currentBalance">{{regularaccount.currentBalance}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.minimumBalance">{{regularaccount.minimumBalance}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.interestRate">{{regularaccount.interestRate}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.creationDateTime">{{regularaccount.creationDateTime}}</td>
+            <td *ngIf="viewRegularAccountCheckBoxes.lastModifiedDateTime">{{regularaccount.lastModifiedDateTime}}</td>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#editRegularAccountModal" (click)="onEditRegularAccountClick(index)">Update</button>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRegularAccountModal" (click)="onDeleteRegularAccountClick(index)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+<!-- New Regular Account Modal -->
+<form [formGroup]="newRegularAccountForm">
+  <div class="modal fade" id="newRegularAccountModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title">Create Account</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group form-row">
+            <label for="customerID" class="col-form-label col-md-4">Customer ID: </label>
+            <div class="col-md-8">
+              <input type="text" placeholder="Customer ID" class="form-control" id="customerID" formControlName="customerID" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('customerID'), newRegularAccountForm)" />
+              <small class="form-text text-muted">Enter customer ID.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('customerID', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('customerID', 'required')}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-row" id="accountCatDiv">
+            <label for="accountCat" class="col-form-label col-md-4">Select a category: </label>
+            <div class="col-md-8">
+              <select class="form-control" style="width:100%" id="accountCat" formControlName="accountCat" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('accountCat'), newRegularAccountForm)">
+
+                <option value="Regular">Regular Account</option>
+                <option value="Fixed">Fixed Account</option>
+              </select>
+              <small class="form-text text-muted">Select one of the above </small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('accountCat', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('accountCat', 'required')}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-row" id="accountTypeDiv">
+            <label for="accountType" class="col-form-label col-md-4">Account Type: </label>
+            <div class="col-md-8">
+              <select class="form-control" style="width:100%" id="accountType"  formControlName="accountType" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('accountType'), newRegularAccountForm)">
+
+                <option value="Savings">Savings</option>
+                <option value="Current">Current</option>
+              </select>
+              <small class="form-text text-muted">Select account type  </small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('accountType', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('accountType', 'required')}}</span>
+            </div>
+          </div>
+
+
+          <div class="form-group form-row">
+            <label for="branch" class="col-form-label col-md-4">Branch: </label>
+            <div class="col-md-8">
+              <select class="form-control" style="width:100%" id="branch" formControlName="branch" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('branch'), newRegularAccountForm)">
+
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+              </select>
+              <small class="form-text text-muted">Select home branch  </small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('branch', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('branch', 'required')}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-row" id="fdAmountDiv">
+            <label for="fdAmount" class="col-form-label col-md-4">FD Deposit Amount: </label>
+            <div class="col-md-8">
+              <input type="number" placeholder="FD Deposit Amount" class="form-control" id="fdAmount"  formControlName="fdAmount" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('fdAmount'), newRegularAccountForm)" />
+              <small class="form-text text-muted">Enter FD amount.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('fdAmount', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('fdAmount', 'required')}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-row" id="tenureDiv">
+            <label for="tenure" class="col-form-label col-md-4">Tenure: </label>
+            <div class="col-md-8">
+              <input type="number" placeholder="Tenure" class="form-control" id="tenure"  formControlName="tenure" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('tenure'), newRegularAccountForm)" />
+              <small class="form-text text-muted">Enter tenure.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('tenure', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('tenure', 'required')}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-row">
+            <label for="minimumBalance" class="col-form-label col-md-4">Minimum Balance: </label>
+            <div class="col-md-8">
+              <input type="number" placeholder="Minimum Balance" class="form-control" id="minimumBalance" formControlName="minimumBalance" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('minimumBalance'), newRegularAccountForm)" />
+              <small class="form-text text-muted">Enter minimum balance.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('minimumBalance', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('minimumBalance', 'required')}}</span>
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="interestRate" class="col-form-label col-md-4">Interest Rate: </label>
+            <div class="col-md-8">
+              <input type="number" placeholder="Interest Rate" class="form-control" id="" formControlName="interestRate" [ngClass]="getFormControlCssClass(newRegularAccountForm.get('interestRate'), newRegularAccountForm)" />
+              <small class="form-text text-muted">Enter the interest rate.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('interestRate', 'required', newRegularAccountForm)">{{getFormControlErrorMessage('interestRate', 'required')}}</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnAddRegularAccountCancel">
+            <i class="fa fa-times-circle"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-success" (click)="onAddRegularAccountClick($event)" [disabled]="newRegularAccountDisabled">
+            <span *ngIf="!newRegularAccountDisabled"><i class="fa fa-save"></i> Save</span>
+            <span *ngIf="newRegularAccountDisabled"><i class="fa fa-circle-o-notch  fa-spin"></i> Saving</span>
+          </button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Edit RegularAccount Modal -->
+<form [formGroup]="editRegularAccountForm">
+  <div class="modal fade" id="editRegularAccountModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title">Update Regular Account</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-row">
+            <label for="accountType" class="col-form-label col-md-4">Account Type: </label>
+            <div class="col-md-8">
+              <select class="form-control" style="width:100%" id="accountType" formControlName="accountType" [ngClass]="getFormControlCssClass(editRegularAccountForm.get('accountType'), editRegularAccountForm)">
+                <option value="Savings">Savings</option>
+                <option value="Current">Current</option>
+              </select>
+              <small class="form-text text-muted">Select account type  </small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('accountType', 'required', editRegularAccountForm)">{{getFormControlErrorMessage('accountType', 'required')}}</span>
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="branch" class="col-form-label col-md-4">Branch: </label>
+            <div class="col-md-8">
+              <select class="form-control" style="width:100%" id="branch" formControlName="branch" [ngClass]="getFormControlCssClass(editRegularAccountForm.get('branch'), editRegularAccountForm)">
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+              </select>
+              <small class="form-text text-muted">Select home branch  </small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('branch', 'required', editRegularAccountForm)">{{getFormControlErrorMessage('branch', 'required')}}</span>
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="minimumBalance" class="col-form-label col-md-4">Minimum Balance: </label>
+            <div class="col-md-8">
+              <input type="number" placeholder="Minimum Balance" class="form-control" id="minimumBalance" formControlName="minimumBalance" [ngClass]="getFormControlCssClass(editRegularAccountForm.get('minimumBalance'), editRegularAccountForm)" />
+              <small class="form-text text-muted">Enter minimum balance.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('minimumBalance', 'required', editRegularAccountForm)">{{getFormControlErrorMessage('minimumBalance', 'required')}}</span>
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="interestRate" class="col-form-label col-md-4">Interest Rate: </label>
+            <div class="col-md-8">
+              <input type="number" placeholder="Interest Rate" class="form-control" id="interestRate"  formControlName="interestRate" [ngClass]="getFormControlCssClass(editRegularAccountForm.get('interestRate'), editRegularAccountForm)" />
+              <small class="form-text text-muted">Enter the interest rate.</small>
+              <span class="text-danger" *ngIf="getCanShowFormControlErrorMessage('interestRate', 'required', editRegularAccountForm)">{{getFormControlErrorMessage('interestRate', 'required')}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnUpdateRegularAccountCancel">
+            <i class="fa fa-times-circle"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-success" (click)="onUpdateRegularAccountClick($event)" [disabled]="editRegularAccountDisabled">
+            <span *ngIf="!editRegularAccountDisabled"><i class="fa fa-save"></i> Save</span>
+            <span *ngIf="editRegularAccountDisabled"><i class="fa fa-circle-o-notch  fa-spin"></i> Saving</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<!-- Delete RegularAccount Modal -->
+<form [formGroup]="deleteRegularAccountForm">
+  <div class="modal fade" id="deleteRegularAccountModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title">Delete Regular Account</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5 class="mb-4">Are you sure to delete this account?</h5>
+          <div class="form-group form-row">
+            <label for="accountNo" class="col-form-label col-md-4">Account No:</label>
+            <div class="col-md-8">
+              <input type="text" placeholder="Account No" readonly="readonly" class="form-control-plaintext" id="accountNo" formControlName="accountNo" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDeleteRegularAccountCancel">
+            <i class="fa fa-times-circle"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-danger" (click)="onDeleteRegularAccountConfirmClick($event)" [disabled]="deleteRegularAccountDisabled">
+            <span *ngIf="!deleteRegularAccountDisabled"><i class="fa fa-save"></i> Delete</span>
+            <span *ngIf="deleteRegularAccountDisabled"><i class="fa fa-circle-o-notch  fa-spin"></i> Deleting</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>>
+
+
+          
+            
+
+
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { RegularAccount } from '../../../Models/regularaccount';
+import { FixedAccount } from '../../../Models/fixedaccount';
+import { RegularAccountsService } from '../../../Services/regularaccounts.service';
+import { CustomersService } from '../../../Services/customers.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as $ from "jquery";
+import { PecuniaComponentBase } from '../../../pecunia-component';
+import { Customer } from 'src/app/Models/customer';
+
+
+@Component({
+  selector: 'app-regularaccounts',
+  templateUrl: './regularaccounts.component.html', 
+  styleUrls: ['./regularaccounts.component.scss']
+})
+export class RegularAccountsComponent extends PecuniaComponentBase implements OnInit {
+  regularaccounts: RegularAccount[] = [];
+  customer: Customer[] = [];
+  showRegularAccountSpinner: boolean = false;
+  viewRegularAccountCheckBoxes: any;
+
+  newAccountNo: number = 0;
+  sortBy: string = "accountType";
+  sortDirection: string = "ASC";
+
+  customerForm: FormGroup;
+  customerFormDisabled: boolean = false;
+
+
+  newRegularAccountForm: FormGroup;
+  newRegularAccountDisabled: boolean = false;
+  newRegularAccountFormErrorMessages: any;
+
+  editRegularAccountForm: FormGroup;
+  editRegularAccountDisabled: boolean = false;
+  editRegularAccountFormErrorMessages: any;
+
+  deleteRegularAccountForm: FormGroup;
+  deleteRegularAccountDisabled: boolean = false;
+
+  constructor(private regularaccountsService: RegularAccountsService, private customersService: CustomersService) {
+    super();
+
+    this.newRegularAccountForm = new FormGroup({
+      customerID: new FormControl(null, [Validators.required]),
+      accountCat: new FormControl(null, [Validators.required]),
+      accountType: new FormControl(null, [Validators.required]),
+      branch: new FormControl(null, [Validators.required]),
+      fdAmount: new FormControl(null, [Validators.required]),
+      tenure: new FormControl(null, [Validators.required]),
+      minimumBalance: new FormControl(null, [Validators.required]),
+      interestRate: new FormControl(null, [Validators.required]),
+    });
+
+    this.newRegularAccountFormErrorMessages = {
+      //accountNo: { required: "AccountNo can't be blank", pattern: "10 digit account number is required" },
+      customerID: { required: "Customer ID can't be blank" },
+      accountType: { required: "Account Type can't be blank" },
+      branch: { required: "Branch can't be blank" },
+      accountCat: { required: "Category can't be blank" },
+      fdAmount: { required: "FD Amount can't be blank" },
+      tenure: { required: "Tenure can't be blank" },
+      minimumBalance: { required: "Minimum Balance can't be blank" },
+      interestRate: { required: "Interest Rate can't be blank" }
+    };
+
+    
+
+    this.editRegularAccountForm = new FormGroup({
+      id: new FormControl(null),
+      accountID: new FormControl(null),
+      customerID: new FormControl(null),
+      accountNo: new FormControl(null),
+      accountType: new FormControl(null, [Validators.required]),
+      branch: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
+      currentBalance: new FormControl(null),
+      minimumBalance: new FormControl(null, [Validators.required]),
+      interestRate: new FormControl(null, [Validators.required]),
+      creationDateTime: new FormControl(null),
+      lastModifiedDateTime: new FormControl(null)
+
+    });
+
+    this.editRegularAccountFormErrorMessages = {
+      accountType: { required: "Account Type can't be blank" },
+      branch: { required: "Branch can't be blank" },
+      minimumBalance: { required: "Minimum Balance can't be blank" },
+      interestRate: { required: "Interest Rate can't be blank" }
+    };
+
+
+    this.viewRegularAccountCheckBoxes = {
+
+      id: true,
+      accountID: true,
+      customerID: true,
+      accountNo: true,
+      accountType: true,
+      branch: true,
+      status: true,
+      currentBalance: true,
+      minimumBalance: true,
+      interestRate: true,
+      creationDateTime: true,
+      lastModifiedDateTime: true
+    };
+
+
+    this.deleteRegularAccountForm = new FormGroup({
+      id: new FormControl(null),
+      accountID: new FormControl(null),
+      customerID: new FormControl(null),
+      accountNo: new FormControl(null),
+      accountType: new FormControl(null),
+      branch: new FormControl(null),
+      status: new FormControl(null),
+      currentBalance: new FormControl(null),
+      minimumBalance: new FormControl(null),
+      interestRate: new FormControl(null),
+      creationDateTime: new FormControl(null),
+      lastModifiedDateTime: new FormControl(null)
+    });
+  }
+
+  ngOnInit() {
+    this.showRegularAccountSpinner = true;
+    //this.setCategoryValidators()
+    //{
+    //  const accountCatControl = this.newRegularAccountForm.get('accountCat');
+    //  const accountTypeControl = this.newRegularAccountForm.get('accountType');
+    //  const fdAmountControl = this.newRegularAccountForm.get('fdAmount');
+    //  const tenureControl = this.newRegularAccountForm.get('tenure');
+    //  this.newRegularAccountForm.get('accountCat').valueChanges
+    //    .subscribe(accountCat => {
+
+    //      if (accountCat == 'Regular') {
+    //        accountTypeControl.setValidators([Validators.required])
+    //        fdAmountControl.setValidators(null);
+    //        tenureControl.setValidators(null);
+    //      }
+
+    //      if (accountCat == 'Fixed') {
+    //        accountTypeControl.setValidators(null);
+    //        fdAmountControl.setValidators([Validators.required]);
+    //        tenureControl.setValidators([Validators.required]);
+    //      }
+
+    //      accountTypeControl.updateValueAndValidity();
+    //      fdAmountControl.updateValueAndValidity();
+    //      tenureControl.updateValueAndValidity();
+
+    //    });
+
+    //}
+    this.regularaccountsService.GetAllAccounts().subscribe((response) => {
+      this.regularaccounts = response;
+      this.showRegularAccountSpinner = false;
+
+      for (var i = 0; i < this.regularaccounts.length; i++) {
+        this.newAccountNo = this.regularaccounts[i].accountNo;
+      }
+      this.newAccountNo += 1;
+
+    }, (error) => {
+      console.log(error);
+    })
+  }
+    setCategoryValidators(): any {
+        throw new Error("Method not implemented.");
+    }
+
+  
+
+  onCreateRegularAccountClick() {
+    this.newRegularAccountForm.reset();
+    this.newRegularAccountForm["submitted"] = false;
+    $('#accountTypeDiv').hide();
+    $('#fdAmountDiv').hide();
+    $('#tenureDiv').hide();
+
+    $("#accountCat").change(function () {
+      if ($(this).val() == "Regular") {
+        $('#accountTypeDiv').show();
+        $('#fdAmountDiv').hide();
+        $('#tenureDiv').hide();
+
+      }
+      if ($(this).val() == "Fixed") {
+        $('#fdAmountDiv').show();
+        $('#tenureDiv').show();
+        $('#accountTypeDiv').hide();
+
+      }
+
+    });
+
+    $("#accountCat").trigger("change");
+
+  }
+
+
+
+
+  onAddRegularAccountClick(event) {
+
+    this.newRegularAccountForm["submitted"] = true;
+
+
+    if (this.newRegularAccountForm.valid)
+    {
+      this.newRegularAccountDisabled = true;
+     
+
+
+      var regularaccount: RegularAccount = this.newRegularAccountForm.value;
+
+      this.customersService.GetCustomerByCustomerID(regularaccount.customerID).subscribe((customerresponse) => {
+        this.customer = customerresponse;
+
+        if (this.customer[0] != null)
+        {
+
+          this.regularaccountsService.CreateAccount(regularaccount, this.newAccountNo).subscribe((addResponse) => {
+            this.newRegularAccountForm.reset();
+            $("#btnAddRegularAccountCancel").trigger("click");
+            this.newRegularAccountDisabled = false;
+            //this.showRegularAccountSpinner = true;
+            this.newAccountNo += 1;
+          }, (error) => {
+            console.log(error);
+          });
+
+          this.regularaccountsService.GetAllAccounts().subscribe((getResponse) => {
+            //this.showRegularAccountSpinner = false;
+            this.regularaccounts = getResponse;
+          }, (error) => {
+            console.log(error);
+
+          });
+        }
+        if (this.customer[0] == null)
+        {
+          //this.showRegularAccountSpinner = false;
+          alert("No customer with this Customer ID exists! Add this customer first.");
+         
+
+         
+          //this.newRegularAccountDisabled = true;
+        }
+      }, (error) => {
+        console.log(error);
+        this.newRegularAccountDisabled = false;
+      });
+        
+    }
+    else
+    {
+      super.getFormGroupErrors(this.newRegularAccountForm);
+    }
+  }
+
+
+  getFormControlCssClass(formControl: FormControl, formGroup: FormGroup): any {
+    return {
+      'is-invalid': formControl.invalid && (formControl.dirty || formControl.touched || formGroup["submitted"]),
+      'is-valid': formControl.valid && (formControl.dirty || formControl.touched || formGroup["submitted"])
+    };
+  }
+
+  getFormControlErrorMessage(formControlName: string, validationProperty: string): string {
+    return this.newRegularAccountFormErrorMessages[formControlName][validationProperty];
+  }
+
+  getCanShowFormControlErrorMessage(formControlName: string, validationProperty: string, formGroup: FormGroup): boolean {
+    return formGroup.get(formControlName).invalid && (formGroup.get(formControlName).dirty || formGroup.get(formControlName).touched || formGroup['submitted']) && formGroup.get(formControlName).errors[validationProperty];
+  }
+
+
+
+  onEditRegularAccountClick(index) {
+    this.editRegularAccountForm.reset();
+    this.editRegularAccountForm["submitted"] = false;
+    this.editRegularAccountForm.patchValue({
+
+      id: this.regularaccounts[index].id,
+      accountID: this.regularaccounts[index].accountID,
+      customerID: this.regularaccounts[index].customerID,
+      accountNo: this.regularaccounts[index].accountNo,
+      accountType: this.regularaccounts[index].accountType,
+      branch: this.regularaccounts[index].branch,
+      status: this.regularaccounts[index].status,
+      currentBalance: this.regularaccounts[index].currentBalance,
+      minimumBalance: this.regularaccounts[index].minimumBalance,
+      interestRate: this.regularaccounts[index].interestRate,
+      creationDateTime: this.regularaccounts[index].creationDateTime,
+      lastModifiedDateTime: this.regularaccounts[index].lastModifiedDateTime
+
+    });
+  }
+
+  onUpdateRegularAccountClick(event) {
+    this.editRegularAccountForm["submitted"] = true;
+    if (this.editRegularAccountForm.valid) {
+      this.editRegularAccountDisabled = true;
+      var regularaccount: RegularAccount = this.editRegularAccountForm.value;
+
+      this.regularaccountsService.UpdateAccount(regularaccount).subscribe((updateResponse) => {
+        this.editRegularAccountForm.reset();
+        $("#btnUpdateRegularAccountCancel").trigger("click");
+        this.editRegularAccountDisabled = false;
+        this.showRegularAccountSpinner = true;
+
+        this.regularaccountsService.GetAllAccounts().subscribe((getResponse) => {
+          this.showRegularAccountSpinner = false;
+          this.regularaccounts = getResponse;
+        }, (error) => {
+          console.log(error);
+        });
+      },
+        (error) => {
+          console.log(error);
+          this.editRegularAccountDisabled = false;
+        });
+    }
+    else {
+      super.getFormGroupErrors(this.editRegularAccountForm);
+    }
+  }
+
+
+  onDeleteRegularAccountClick(index) {
+    this.deleteRegularAccountForm.reset();
+    this.deleteRegularAccountForm["submitted"] = false;
+    this.deleteRegularAccountForm.patchValue({
+
+      id: this.regularaccounts[index].id,
+      accountID: this.regularaccounts[index].accountID,
+      customerID: this.regularaccounts[index].customerID,
+      accountNo: this.regularaccounts[index].accountNo,
+      accountType: this.regularaccounts[index].accountType,
+      branch: this.regularaccounts[index].branch,
+      status: this.regularaccounts[index].status,
+      currentBalance: this.regularaccounts[index].currentBalance,
+      minimumBalance: this.regularaccounts[index].minimumBalance,
+      interestRate: this.regularaccounts[index].interestRate,
+      creationDateTime: this.regularaccounts[index].creationDateTime,
+      lastModifiedDateTime: this.regularaccounts[index].lastModifiedDateTime
+    });
+  }
+
+  onDeleteRegularAccountConfirmClick(event) {
+    this.deleteRegularAccountForm["submitted"] = true;
+    if (this.deleteRegularAccountForm.valid) {
+      this.deleteRegularAccountDisabled = true;
+      var regularaccount: RegularAccount = this.deleteRegularAccountForm.value;
+
+      this.regularaccountsService.DeleteAccount(regularaccount).subscribe((deleteResponse) => {
+        this.deleteRegularAccountForm.reset();
+        $("#btnDeleteRegularAccountCancel").trigger("click");
+        this.deleteRegularAccountDisabled = false;
+        this.showRegularAccountSpinner = true;
+
+        this.regularaccountsService.GetAllAccounts().subscribe((getResponse) => {
+          this.showRegularAccountSpinner = false;
+          this.regularaccounts = getResponse;
+        }, (error) => {
+          console.log(error);
+        });
+      },
+        (error) => {
+          console.log(error);
+          this.deleteRegularAccountDisabled = false;
+        });
+    }
+    else {
+      super.getFormGroupErrors(this.deleteRegularAccountForm);
+    }
+  }
+
+  
+
+
+
+
+  onViewSelectAllClick() {
+    for (let propertyName of Object.keys(this.viewRegularAccountCheckBoxes)) {
+      this.viewRegularAccountCheckBoxes[propertyName] = true;
+    }
+  }
+
+  onViewDeselectAllClick() {
+    for (let propertyName of Object.keys(this.viewRegularAccountCheckBoxes)) {
+      this.viewRegularAccountCheckBoxes[propertyName] = false;
+    }
+  }
+
+  onBtnSortClick() {
+    console.log(this.sortBy);
+    this.regularaccounts.sort((a, b) => {
+      let comparison = 0;
+      let value1 = ((typeof a[this.sortBy]) == 'string') ? a[this.sortBy].toUpperCase() : a[this.sortBy];
+      let value2 = ((typeof b[this.sortBy]) == 'string') ? b[this.sortBy].toUpperCase() : b[this.sortBy];
+
+      if (this.sortBy == "creationDateTime" || this.sortBy == "lastModifiedDateTime") {
+        var tt = value1.split("/");
+        var d1 = new Date(tt[2], tt[1], tt[0]);
+        tt = value2.split("/");
+        var d2 = new Date(tt[2], tt[1], tt[0]);
+        if (d2 > d1) comparison = -1;
+        else comparison = 1;
+      }
+      else {
+        if (value1 < value2) {
+          comparison = -1;
+        }
+        else if (value1 > value2) {
+          comparison = 1;
+        }
+      }
+      if (this.sortDirection == "DESC")
+        comparison = comparison * -1;
+
+      console.log(value1, value2, comparison);
+      return comparison;
+    });
+
+  }
+}
+
+
+
+
+
+
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { FixedAccount } from '../Models/fixedaccount';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class FixedAccountsService{
+  constructor(private httpClient: HttpClient) {
+  }
+
+  CreateAccount(fixedaccount: FixedAccount, newAccountNo: number): Observable<boolean> {
+    fixedaccount.creationDateTime = new Date().toLocaleDateString();
+    fixedaccount.lastModifiedDateTime = new Date().toLocaleDateString();
+    fixedaccount.status = "Active";
+    fixedaccount.accountID = this.uuidv4();
+    //fixedaccount.customerID = this.c_uuidv4();
+    fixedaccount.accountNo = newAccountNo;
+    fixedaccount.currentBalance = 0.0;
+    return this.httpClient.post<boolean>(`/api/fixedaccounts`, fixedaccount);
+  }
+
+  UpdateAccount(fixedaccount: FixedAccount): Observable<boolean> {
+
+    fixedaccount.lastModifiedDateTime = new Date().toLocaleDateString();
+
+    return this.httpClient.put<boolean>(`/api/fixedaccounts`, fixedaccount);
+
+  }
+
+  DeleteAccount(fixedaccount: FixedAccount): Observable<boolean> {
+    fixedaccount.lastModifiedDateTime = new Date().toLocaleDateString();
+    fixedaccount.status = "Closed";
+
+
+    return this.httpClient.put<boolean>(`/api/fixedaccounts`, fixedaccount);
+  }
+
+  GetAccountsByType(AccountType: string): Observable<FixedAccount[]> {
+
+    return this.httpClient.get<FixedAccount[]>(`/api/fixedaccounts?accountType=${AccountType}`);
+
+  }
+
+  GetAllAccounts(): Observable<FixedAccount[]> {
+
+    return this.httpClient.get<FixedAccount[]>(`/api/fixedaccounts`);
+
+  }
+
+  GetAccountByAccountID(AccountID: string): Observable<FixedAccount> {
+
+
+
+    return this.httpClient.get<FixedAccount>(`/api/fixedaccounts?accountID=${AccountID}`);
+
+  }
+
+  GetAccountByAccountNo(AccountNo: number): Observable<FixedAccount[]> {
+
+    console.log("Coming in function");
+
+    return this.httpClient.get<FixedAccount[]>(`/api/fixedaccounts?accountNo=${AccountNo}`);
+
+
+  }
+
+  GetAccountBycustomerID(CustomerID: string): Observable<FixedAccount> {
+
+    return this.httpClient.get<FixedAccount>(`/api/fixedaccounts?customerID=${CustomerID}`);
+
+  }
+
+  uuidv4() {
+
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+
+      return v.toString(16);
+
+    });
+  }
+
+  c_uuidv4() {
+
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+
+      return v.toString(16);
+
+    });
+  }
+
+}
+
